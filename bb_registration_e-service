@@ -1,0 +1,74 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "E-Form Data API",
+    "description": "API for sending e-form data to a database"
+  },
+  "servers": [
+    {
+      "url": "https://api.example.com/v1",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/e-forms/{id}/data": {
+      "post": {
+        "summary": "Submit e-form data",
+        "description": "Submit data for a specific e-form to the database",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the e-form",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Data to be submitted for the e-form",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EFormData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Data was successfully submitted to the database"
+          },
+          "400": {
+            "description": "Invalid data submitted"
+          },
+          "404": {
+            "description": "E-Form not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "EFormData": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
