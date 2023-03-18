@@ -1,0 +1,87 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "E-Form Update API",
+    "version": "1.0.0",
+    "description": "API for updating data in previously submitted e-form"
+  },
+  "servers": [
+    {
+      "url": "https://example.com"
+    }
+  ],
+  "paths": {
+    "/e-forms/{e-form-id}/data": {
+      "put": {
+        "summary": "Update data in a previously submitted e-form",
+        "operationId": "updateEFormData",
+        "tags": [
+          "e-form"
+        ],
+        "parameters": [
+          {
+            "name": "e-form-id",
+            "in": "path",
+            "description": "The ID of the e-form to update",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "New data to update in the e-form",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EFormData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Data successfully updated in the e-form",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EFormData"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request data"
+          },
+          "404": {
+            "description": "E-form not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "EFormData": {
+        "type": "object",
+        "properties": {
+          "field1": {
+            "type": "string"
+          },
+          "field2": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "field3": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}
