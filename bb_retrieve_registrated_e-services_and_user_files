@@ -1,0 +1,132 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "E-Form API",
+    "version": "1.0.0",
+    "description": "API for managing e-forms and e-documents"
+  },
+  "servers": [
+    {
+      "url": "https://api.example.com"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "Form": {
+        "type": "object",
+        "properties": {
+          "formId": {
+            "type": "string"
+          },
+          "schema": {
+            "type": "object"
+          }
+        }
+      },
+      "Document": {
+        "type": "object",
+        "properties": {
+          "documentId": {
+            "type": "string"
+          },
+          "applicantId": {
+            "type": "string"
+          },
+          "formData": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/forms": {
+      "get": {
+        "summary": "Get all e-forms",
+        "responses": {
+          "200": {
+            "description": "List of all e-forms",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Form"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/forms/{formId}/documents": {
+      "get": {
+        "summary": "Get all e-documents for a specific e-form",
+        "parameters": [
+          {
+            "name": "formId",
+            "in": "path",
+            "required": true,
+            "description": "ID of the e-form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of all e-documents for the specified e-form",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Document"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/forms/{formId}/documents/{documentId}": {
+      "get": {
+        "summary": "Get a specific e-document for a specific applicant",
+        "parameters": [
+          {
+            "name": "formId",
+            "in": "path",
+            "required": true,
+            "description": "ID of the e-form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "documentId",
+            "in": "path",
+            "required": true,
+            "description": "ID of the e-document",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested e-document",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Document"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
