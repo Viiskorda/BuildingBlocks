@@ -1,0 +1,79 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "e-document Registration API",
+    "description": "API for registering and retrieving e-documents from specific e-forms"
+  },
+  "servers": [
+    {
+      "url": "https://api.example.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/e-forms/{formId}/e-documents": {
+      "get": {
+        "summary": "Get list of registered e-documents from a specific e-form",
+        "description": "Returns a list of all e-documents that have been registered with the specified e-form ID",
+        "parameters": [
+          {
+            "name": "formId",
+            "in": "path",
+            "description": "ID of the e-form",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "123456"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of registered e-documents",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/eDocument"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The specified e-form ID was not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "eDocument": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the e-document"
+          },
+          "formId": {
+            "type": "string",
+            "description": "ID of the e-form that the e-document came from"
+          },
+          "data": {
+            "type": "object",
+            "description": "The data that was submitted with the e-document",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
