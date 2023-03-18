@@ -1,0 +1,112 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "E-Form List API"
+  },
+  "servers": [
+    {
+      "url": "https://example.com/api"
+    }
+  ],
+  "paths": {
+    "/e-forms": {
+      "get": {
+        "summary": "Retrieve a list of all available e-forms",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EFormListItem"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/e-forms/{e-form-id}": {
+      "get": {
+        "summary": "Retrieve a specific e-form by ID",
+        "parameters": [
+          {
+            "name": "e-form-id",
+            "in": "path",
+            "description": "The ID of the e-form to retrieve",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EForm"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "EFormListItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier of the e-form"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the e-form"
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of the e-form"
+          }
+        }
+      },
+      "EForm": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier of the e-form"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the e-form"
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of the e-form"
+          },
+          "schema": {
+            "description": "The schema of the e-form",
+            "$ref": "#/components/schemas/EFormSchema"
+          }
+        }
+      },
+      "EFormSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "The JSON schema of the e-form"
+      }
+    }
+  }
+}
